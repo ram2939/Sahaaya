@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "666113663404",
+    "firebase_url": "https://ocrapp-bbff5.firebaseio.com",
+    "project_id": "ocrapp-bbff5",
+    "storage_bucket": "ocrapp-bbff5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666113663404:android:c5a450f377ab1fc14f5a09",
+        "android_client_info": {
+          "package_name": "com.example.ocr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "666113663404-95b3d0hejh3m6sqocqtlqt8s0e9rvkmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVNSVtUG5GEfxiY12N4EUQFyv7K-jFap4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "666113663404-95b3d0hejh3m6sqocqtlqt8s0e9rvkmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
