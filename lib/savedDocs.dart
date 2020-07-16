@@ -71,7 +71,8 @@ void dispose() {
   }
   @override
   Widget build(BuildContext context) {    
-    return SafeArea(
+    return 
+    SafeArea(
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
               backgroundColor: Colors.white,
@@ -82,13 +83,6 @@ void dispose() {
             // extendBodyBehindAppBar: true,
             backgroundColor: Colors.black,
             appBar: AppBar(
-              // actions: <Widget>[
-              //     isEdit ?
-              //     IconButton(icon: Icon(Icons.delete), onPressed: (){
-              //           deleteDoc(this.selectedId);
-              //     })
-              //     : Container()
-              // ],
               title: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 50),
@@ -98,15 +92,18 @@ void dispose() {
               backgroundColor: Colors.transparent,
             ),
                       body: Container(
-                           child:  ListView.builder(
+                           child: (docs.length > 0) ?
+                            ListView.builder(
                             //  controller: _scrollController,
                               itemCount: docs.length,
                               itemBuilder: (context, i){
-                                if(docs.length > 0)
+                                
                               return DocTile(docs[i], deleteCallback: deleteDoc);
-                              else return Center(child: Text("No Documents", style: TextStyle(color: Colors.white),),);
+    
                             }
                             )
+                            :
+                            Center(child: Text("No Documents", style: TextStyle(color: Colors.white),),)
                       )
           )
     );
@@ -132,13 +129,43 @@ class _DocTileState extends State<DocTile> {
 showEditName(BuildContext context){
   title.text=widget.doc.title;
   showDialog(context: context, builder: (context){
-    return AlertDialog(
-      title: Text("Enter the name"),
-      content: TextField(
-        controller: title,
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: 
+      Container(
+        height: MediaQuery.of(context).size.height*0.2,
+        width: MediaQuery.of(context).size.width*0.8,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top : 30.0),
+              child: Text("Edit Title", style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18
+              ),),
+            ),
+            Container(
+        // decoration: BoxDecoration(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: TextField(
+            style: TextStyle(
+          ),
+            controller: title,
+            onTap: () => title.selection = TextSelection(baseOffset: 0, extentOffset: title.value.text.length),
+          ),
+        ),
       ),
-      actions: <Widget>[
-        FlatButton(onPressed: ()async{
+      Container(
+        width: MediaQuery.of(context).size.width*0.8,
+        // color: Colors.red,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+          color: Colors.black
+        ),
+        child: FlatButton(onPressed: ()async{
+          if(title.text.isNotEmpty){
           setState(() {
           widget.doc.title=title.text;
           selected=false;  
@@ -148,10 +175,60 @@ showEditName(BuildContext context){
           Toast.show("Saved Successfully", context);
           // Fluttertoast.showToast(msg: "Saved Successfully");
           Navigator.pop(context);
+          }
+          else Toast.show("Title cannot be empty", context);
         },
-         child: Text("Save"))
-      ],
+         child: Text("Save", style: TextStyle(
+           color: Colors.white
+         ),)),
+      ),
+          ],
+        )), 
      );
+    
+    
+  });
+}
+
+showDeleteDialog(BuildContext context){
+  showDialog(context: context, builder: (context){
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: 
+      Container(
+        height: MediaQuery.of(context).size.height*0.2,
+        width: MediaQuery.of(context).size.width*0.8,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Center(
+                child: Text("This document will be deleted. Do you want to delete ?", style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18
+                ),),
+              ),
+            ),
+      Container(
+        width: MediaQuery.of(context).size.width*0.8,
+        // color: Colors.red,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+          color: Colors.black
+        ),
+        child: FlatButton(onPressed: ()async{
+          widget.deleteCallback(widget.doc.id);
+        },
+         child: Text("Delete", style: TextStyle(
+           color: Colors.white
+         ),)),
+      ),
+          ],
+        )), 
+     );
+    
+    
   });
 }
 
@@ -162,7 +239,6 @@ showEditName(BuildContext context){
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
       child: GestureDetector(
               onHorizontalDragUpdate: (details){
-                // if(details.localPosition== Offset.fromDirection(3.14))
                 if(details.delta.dx < 0)
                 setState(() {
                   selected=true;
@@ -202,12 +278,16 @@ showEditName(BuildContext context){
                       ),
                     ),
             ),
-            title: Text(widget.doc.title,
-            style: TextStyle(
-                    color: Colors.black
-            ),),
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(widget.doc.title,
+              style: TextStyle(
+                      color: Colors.black
+              ),),
+            ),
             // trailing: ,
             onTap:(){ 
+                    if(!selected)
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>TextPage(widget.doc.text)));
             }
           ),
@@ -231,7 +311,8 @@ showEditName(BuildContext context){
                         child: Icon(Icons.delete),
                       ), onPressed: (){
                         print("Deleted");
-                          this.widget.deleteCallback(widget.doc.id);
+                        showDeleteDialog(context);
+                          // this.widget.deleteCallback(widget.doc.id);
                       },),
                     ],
                   )

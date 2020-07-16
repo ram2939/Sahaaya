@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ocr/database.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,7 @@ import 'package:toast/toast.dart';
 
 class TextPage extends StatefulWidget {
   final String text;
-  final bool isUnsaved;
+  bool isUnsaved;
   final Function callback;
   TextPage(this.text, {this.isUnsaved=false, this.callback});
   @override
@@ -14,7 +15,8 @@ class TextPage extends StatefulWidget {
 }
 
 class _TextPageState extends State<TextPage> {
-  final TextEditingController docName=TextEditingController(text: DateTime.now().millisecondsSinceEpoch.toString().split(".")[0]);
+  FlutterTts flutterTts;
+  final TextEditingController docName=TextEditingController(text: DateTime.now().toIso8601String().split('.')[0]);
   final List<String> modes = ["Light", "Dark", "Dyslexia"];
   final List<String> fonts = ["Comfortaa", 'ComicNeue', 'Open Dyslexic', 'Serif'];
   double letterSpacing=0;
@@ -25,24 +27,100 @@ class _TextPageState extends State<TextPage> {
   String mode = "Light";
   bool showTextBar = false;
   getDocName(BuildContext context) async{
+    // docName.selection = TextSelection(baseOffset: 0, extentOffset: docName.value.text.length);
     showDialog(context: context, builder: (context){
-    return   AlertDialog(
-      title: Text("Enter the name"),
-      content: TextField(
-        controller: docName,
+    return   Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: 
+      Container(
+        height: MediaQuery.of(context).size.height*0.2,
+        width: MediaQuery.of(context).size.width*0.8,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top : 30.0),
+              child: Text("Enter Title", style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18
+              ),),
+            ),
+            Container(
+        // decoration: BoxDecoration(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: TextField(
+            style: TextStyle(
+          ),
+            controller: docName,
+            onTap: () => docName.selection = TextSelection(baseOffset: 0, extentOffset: docName.value.text.length),
+          ),
+        ),
       ),
-      actions: <Widget>[
-        FlatButton(onPressed: ()async{
+      Container(
+        width: MediaQuery.of(context).size.width*0.8,
+        // color: Colors.red,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+          color: Colors.black
+        ),
+        child: FlatButton(onPressed: ()async{
+          if(docName.text.isNotEmpty){
           Provider.of<DocumentProvider>(context, listen:false).insert(new Document(title: docName.text, text: widget.text));
           Toast.show("Saved Successfully", context);
+          setState(() {
+            widget.isUnsaved=false;
+          });
           // Fluttertoast.showToast(msg: "Saved Successfully");
           Navigator.pop(context);
+          }
+          else Toast.show("Title cannot be empty", context);
         },
-         child: Text("Save"))
-      ],
+         child: Text("Save", style: TextStyle(
+           color: Colors.white
+         ),)),
+      ),
+      //  FlatButton(onPressed: (){
+      //    Navigator.pop(context);
+      //  }, child: Text("Cancel"))
+
+          ],
+        )),
+      // content: 
+      
      );
     });
   }
+  int ttsState=0; //paused =0 playing =1
+
+  @override
+  void initState() {
+    super.initState();
+    flutterTts= new FlutterTts();
+  }
+Future _speak() async {
+    // await flutterTts.setVolume(volume);
+    // await flutterTts.setSpeechRate(rate);
+    // await flutterTts.setPitch(pitch);
+
+    if (widget.text != null) {
+      if (widget.text.isNotEmpty) {
+        var result = await flutterTts.speak(widget.text);
+        if (result == 1) setState(() => ttsState = 1);
+      }
+    }
+  }
+
+  Future _pause() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = 0);
+  }
+  @override
+  void dispose() {
+    flutterTts.stop();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextStyle _textStyle = TextStyle(color: textColor, fontFamily: fontFamily);
@@ -53,6 +131,20 @@ class _TextPageState extends State<TextPage> {
         Navigator.pop(context);
       },
           child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              tooltip: "Text to Speech",
+              backgroundColor: textColor,
+              onPressed: (){
+                if(ttsState == 0){
+                  _speak();
+                }
+                else _pause();
+              },
+              child: ttsState == 0 ? 
+              Icon(Icons.play_arrow, color: bgColor) 
+              :
+              Icon(Icons.pause)
+            ),
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           bottom: PreferredSize(
@@ -215,6 +307,7 @@ class _TextPageState extends State<TextPage> {
                             },)
                             :Container(),
             IconButton(
+              tooltip: "Tap to show/hide Toolbar",
               icon: !showTextBar
                   ? Icon(Icons.expand_more, color: textColor)
                   : Icon(

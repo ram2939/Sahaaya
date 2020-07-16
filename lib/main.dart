@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
+            toolbarColor: Colors.black,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
