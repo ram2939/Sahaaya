@@ -18,12 +18,12 @@ class _TextPageState extends State<TextPage> {
   FlutterTts flutterTts;
   final TextEditingController docName=TextEditingController(text: DateTime.now().toIso8601String().split('.')[0]);
   final List<String> modes = ["Light", "Dark", "Dyslexia"];
-  final List<String> fonts = ["Comfortaa", 'ComicNeue', 'Open Dyslexic', 'Serif'];
+  // final List<String> fonts = ["Comfortaa", 'ComicNeue', 'Open Dyslexic', 'Serif'];
   double letterSpacing=0;
   double fontSize = 15;
   Color bgColor = Colors.white;
   Color textColor = Colors.black;
-  String fontFamily = "Serif";
+  String fontFamily = "Arial";
   String mode = "Light";
   bool showTextBar = false;
   getDocName(BuildContext context) async{
@@ -246,26 +246,26 @@ Future _speak() async {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              DropdownButton(
-                  dropdownColor: bgColor,
-                  value: fontFamily,
-                  items: fonts
-                      .map((e) => DropdownMenuItem<String>(
-                          value: e,
-                          child: Text(
-                            e,
-                            style: TextStyle(
-                              fontFamily: e,
-                              color: textColor,
-                            ),
-                          )))
-                      .toList(),
-                  onChanged: (String font) {
-                    setState(() {
-                      print(font);
-                      fontFamily = font.toString();
-                    });
-                  }),
+              // DropdownButton(
+              //     dropdownColor: bgColor,
+              //     value: fontFamily,
+              //     items: fonts
+              //         .map((e) => DropdownMenuItem<String>(
+              //             value: e,
+              //             child: Text(
+              //               e,
+              //               style: TextStyle(
+              //                 fontFamily: e,
+              //                 color: textColor,
+              //               ),
+              //             )))
+              //         .toList(),
+              //     onChanged: (String font) {
+              //       setState(() {
+              //         print(font);
+              //         fontFamily = font.toString();
+              //       });
+              //     }),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: DropdownButton(

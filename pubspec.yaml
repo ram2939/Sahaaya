@@ -30,6 +30,8 @@ dependencies:
   provider: ^4.3.1
   toast: ^0.1.5
   flutter_tts: ^1.2.6
+  http: ^0.12.2
+  connectivity: ^0.4.9
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
@@ -66,23 +68,23 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: 'Comfortaa'
-      fonts:
-        - asset: fonts/Comfortaa-Regular.ttf
-  #       - asset: fonts/comfortaa/Comfortaa-Regular.ttf
-  #         style: italic
-    - family: 'ComicNeue'
-      fonts:
-        - asset: fonts/ComicNeue-Regular.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-    - family: 'Open Dyslexic'
-      fonts:
-        - asset: fonts/OpenDyslexic-Regular.otf
+  #   - family: 'Comfortaa'
+  #     fonts:
+  #       - asset: fonts/Comfortaa-Regular.ttf
+  # #       - asset: fonts/comfortaa/Comfortaa-Regular.ttf
+  # #         style: italic
+  #   - family: 'ComicNeue'
+  #     fonts:
+  #       - asset: fonts/ComicNeue-Regular.ttf
+  # #       - asset: fonts/TrajanPro_Bold.ttf
+  # #         weight: 700
+  #   - family: 'Open Dyslexic'
+  #     fonts:
+  #       - asset: fonts/OpenDyslexic-Regular.otf
 
-    - family: 'Serif'
+    - family: 'Arial'
       fonts:
-        - asset: fonts/SERINI__.ttf
+        - asset: fonts/arial-unicode-ms.ttf
     
   #
   # For details regarding fonts from package dependencies,

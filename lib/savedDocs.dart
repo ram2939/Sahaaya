@@ -86,7 +86,7 @@ void dispose() {
               title: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 50),
-                  child: Text("App Name"),
+                  child: Text("Sahaaya"),
                 ),
               ),
               backgroundColor: Colors.transparent,
