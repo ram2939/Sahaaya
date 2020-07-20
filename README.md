@@ -1,7 +1,7 @@
 
 # Sahaaya
 
-![enter image description here](Manual.jpg)
+![enter image description here](pics/Manual.jpg)
 
 Sahaaya is an education accessibilty app to help students with vision and learning disorders like dyslexia so the they can read any form of text easily. It is based on a research study from 2012. The features we provide are :
 
