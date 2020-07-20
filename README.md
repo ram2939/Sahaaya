@@ -1,16 +1,16 @@
+
 # Sahaaya
+![enter image description here](Manual.jpg)
+Sahaaya is an education accessibilty app to help students with vision and learning disorders like dyslexia so the they can read any form of text easily. It is based on a research study from 2012. The features we provide are :
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  - Multiple reading modes
+  - 13 indian languages
+  - text to speech 
+![video](pics/video.gif)
+![enter image description here](pics/1.jpg)
+![enter image description here](pics/2.jpg)
+![enter image description here](pics/3.jpg)
+![enter image description here](pics/4.jpg)
+![enter image description here](pics/5.jpg)
+![enter image description here](pics/6.jpg)
+![enter image description here](pics/7.jpg)
